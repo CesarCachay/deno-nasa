@@ -26,9 +26,12 @@ app.use(async (ctx) => {
     "/stylesheets/style.css",
     "/images/favicon.png",
   ];
-  await send(ctx, filePath, {
-    root: `${Deno.cwd()}/public`,
-  });
+
+  if (fileWhiteList.includes(filePath)) {
+    await send(ctx, filePath, {
+      root: `${Deno.cwd()}/public`,
+    });
+  }
 });
 
 // ctx or context is an object which contains the current state of the application

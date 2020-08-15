@@ -23,6 +23,9 @@ app.use(async (ctx, next) => {
 // This will show the root api that has ASCII art Nasa Project
 app.use(api.routes());
 
+// The allowMethods function will return 405 method not allowed instead of an 404 not found
+app.use(api.allowedMethods());
+
 // If the url is different than the root '/' will shown the files of the white list
 app.use(async (ctx) => {
   const filePath = ctx.request.url.pathname;

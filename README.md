@@ -6,3 +6,7 @@ To run this project you need to run the following versions:
 - "https://deno.land/x/oak@v5.0.0/mod.ts"
 
 - Run deno run --allow--net --allow-read mod.ts
+
+
+To run the tests please run
+- deno tests

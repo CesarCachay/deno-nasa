@@ -78,3 +78,14 @@ export const getSingleLaunch = (id: number) => {
   }
   return null;
 };
+
+export const createLaunch = (data: Launch) => {
+  // In this case .set is used because the type of launches is Map
+  launches.set(
+    data.flightNumber,
+    Object.assign(data, {
+      upcoming: true,
+      customers: ["aimo", "Codeable"],
+    }),
+  );
+};

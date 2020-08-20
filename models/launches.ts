@@ -1,5 +1,4 @@
-import * as log from "https://deno.land/std/log/mod.ts";
-import * as _ from "https://deno.land/x/lodash@4.17.15-es/lodash.js";
+import { log, flatMap } from "../deps.ts";
 
 interface Launch {
   flightNumber: number;
@@ -43,7 +42,7 @@ export const downloadLaunchData = async () => {
   for (const launch of launchData) {
     const payloads = launch.rocket.second_stage.payloads;
     // flatMap it's really helpfull un functional programming
-    const customersData = _.flatMap(payloads, (payload: any) => {
+    const customersData = flatMap(payloads, (payload: any) => {
       return payload.customers;
     });
 
@@ -59,7 +58,7 @@ export const downloadLaunchData = async () => {
 
     launches.set(flightData.flightNumber, flightData);
 
-    log.info(JSON.stringify(flightData));
+    // log.info(JSON.stringify(flightData));
   }
 };
 

@@ -67,6 +67,14 @@ await downloadLaunchData();
 log.info(JSON.stringify(import.meta));
 log.info(`Downloaded data for ${launches.size} SpaceX launches.`);
 
-export const getAll = () => {
+export const getAllLaunches = () => {
   return Array.from(launches.values());
+};
+
+export const getSingleLaunch = (id: number) => {
+  // To check if the id exists in the database
+  if (launches.has(id)) {
+    return launches.get(id);
+  }
+  return null;
 };

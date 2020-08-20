@@ -26,7 +26,24 @@ router.get("/planets", (ctx) => {
 });
 
 router.get("/launches", (ctx) => {
-  ctx.response.body = launches.getAll();
+  ctx.response.body = launches.getAllLaunches();
+});
+
+router.get("/launches/:id", (ctx) => {
+  // This ctx.params? is to make sure that in the ctx there are params
+  if (ctx.params?.id) {
+    const launchesList = ctx.response.body = launches.getSingleLaunch(
+      Number(ctx.params.id),
+    );
+    // To make sure that if the API return null value defined previously
+    if (launchesList) {
+      ctx.response.body = launchesList;
+    } else {
+      ctx.throw(400, "Launch with that ID doesn't exist");
+    }
+  }
+  // The long way of ctx.params?
+  // if(ctx.params && ctx.params.id){...}
 });
 
 export default router;

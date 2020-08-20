@@ -89,3 +89,13 @@ export const createLaunch = (data: Launch) => {
     }),
   );
 };
+
+export const deleteLaunch = (id: number) => {
+  // Don't really want to delete from our database we will changed it to aborted
+  const abortedLaunch = launches.get(id);
+  if (abortedLaunch) {
+    abortedLaunch.upcoming = false;
+    abortedLaunch.success = false;
+  }
+  return abortedLaunch;
+};

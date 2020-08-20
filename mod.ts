@@ -1,8 +1,37 @@
+import * as log from "https://deno.land/std/log/mod.ts";
 import { Application, send } from "https://deno.land/x/oak@v5.0.0/mod.ts";
 import api from "./api.ts";
 
 const app = new Application();
 const PORT = 8000;
+
+await log.setup({
+  handlers: {
+    console: new log.handlers.ConsoleHandler("INFO"),
+  },
+  loggers: {
+    default: {
+      level: "INFO",
+      handlers: ["console"],
+    },
+  },
+});
+
+// Adding error listener of Deno
+app.addEventListener("error", (event) => {
+  log.error(event.error.message);
+});
+
+// Error handling middleware
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    // Setting the response error body
+    ctx.response.body = "Internal server error";
+    throw err;
+  }
+});
 
 // ctx or context is an object which contains the current state of the application
 // the 2nd parameter next is an async function
@@ -45,6 +74,7 @@ app.use(async (ctx) => {
 });
 
 if (import.meta.main) {
+  log.info(`Starting server on port ${PORT}`);
   await app.listen({
     port: PORT,
   });
